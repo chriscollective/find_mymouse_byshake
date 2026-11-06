@@ -69,6 +69,8 @@ Stop-Running
 Move-Item -LiteralPath $Downloaded -Destination $Exe -Force
 Unblock-File -LiteralPath $Exe
 New-StartMenuShortcut
+# The Run key does not exist on fresh profiles (e.g. a brand-new account).
+if (-not (Test-Path $RunKey)) { New-Item -Path $RunKey -Force | Out-Null }
 Set-ItemProperty -Path $RunKey -Name $Name -Value "`"$Exe`""
 Start-Process -FilePath $Exe
 
